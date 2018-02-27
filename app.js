@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -13,8 +15,6 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 
 const app = express();
-
-// require('./config/database');
 
 // data base setup
 mongoose.Promise = Promise;
