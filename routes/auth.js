@@ -12,32 +12,32 @@ const User = require('../models/user');
 //   }
 // });
 
-// router.post('/login', (req, res, next) => {
-//   if (req.session.currentUser) {
-//     return res.status(401).json({error: 'unauthorized'});
-//   }
+router.post('/login', (req, res, next) => {
+  if (req.session.currentUser) {
+    return res.status(401).json({error: 'unauthorized'});
+  }
 
-//   const username = req.body.username;
-//   const password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
 
-//   if (!username || !password) {
-//     return res.status(422).json({error: 'validation'});
-//   }
+  if (!username || !password) {
+    return res.status(422).json({error: 'validation'});
+  }
 
-//   User.findOne({ username })
-//     .then((user) => {
-//       if (!user) {
-//         return res.status(404).json({error: 'not-found'});
-//       }
-//       if (bcrypt.compareSync(password, user.password)) {
-//         req.session.currentUser = user;
-//         return res.json(user);
-//       } else {
-//         return res.status(404).json({error: 'not-found'});
-//       }
-//     })
-//     .catch(next);
-// });
+  User.findOne({ username })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({error: 'not-found'});
+      }
+      if (bcrypt.compareSync(password, user.password)) {
+        req.session.currentUser = user;
+        return res.json(user);
+      } else {
+        return res.status(404).json({error: 'not-found'});
+      }
+    })
+    .catch(next);
+});
 
 router.post('/signup', (req, res, next) => {
   if (req.session.currentUser) {

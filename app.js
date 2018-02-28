@@ -13,6 +13,7 @@ const MongoStore = require('connect-mongo')(session);
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const auth = require('./routes/auth');
 
 const app = express();
 
@@ -33,9 +34,6 @@ app.use(cors({
   origin: ['http://localhost:4200']
 }));
 
-app.use('/', index);
-app.use('/users', users);
-
 // Session
 app.use(session({
   store: new MongoStore({
@@ -49,6 +47,11 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
+
+// Routes
+app.use('/', index);
+app.use('/users', users);
+app.use('/auth', auth);
 
 app.use(function (req, res, next) {
   app.locals.user = req.session.currentUser;
