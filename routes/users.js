@@ -11,4 +11,12 @@ router.get('/', (req, res, next) => {
   });
 });
 
+/* GET user profile. */
+router.get('/:id', (req, res, next) => {
+  User.findById((req.params.id), (err, user) => {
+    if (err) { return res.json(err).status(500); }
+    return res.json(user);
+  });
+});
+
 module.exports = router;
