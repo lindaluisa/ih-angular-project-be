@@ -5,7 +5,7 @@ const Story = require('../models/story')
 /* POST create new story. */
 router.post('/', (req, res, next) => { 
 
-  const message = req.body.story;
+  const message = req.body.event;
   const owner = req.session.currentUser;
   const replies = [];
 
