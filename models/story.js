@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const objectId = Schema.Types.ObjectId;
 
 const StorySchema = new Schema({
-  owner: { type: objectId, ref: 'User' },
+  owner: String,
   message: String,
   replies: [{ type: objectId, ref: 'Story' }]
 });

@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const index = require('./routes/index');
+const stories = require('./routes/stories');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 
@@ -49,7 +49,7 @@ app.use(session({
 }));
 
 // Routes
-app.use('/', index);
+app.use('/stories', stories);
 app.use('/users', users);
 app.use('/auth', auth);
 
