@@ -17,9 +17,9 @@ const auth = require('./routes/auth');
 
 const app = express();
 
-// data base setup
+// // data base setup
 mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect("mongodb://localhost/sharemo-db", {
   keepAlive: true,
   reconnectTries: Number.MAX_VALUE
 });
