@@ -22,13 +22,23 @@ router.post('/', (req, res, next) => {
   .catch(next);
 });
 
-/* GET stories listing. */
-router.get('/:id', (req, res, next) => {
+/* GET all stories of one user */
+router.get('/user-stories/:id', (req, res, next) => {
   const userId = req.params.id;
   Story.find({ owner: userId }, (err, stories) => {
     if (err) { return res.json(err).status(500); }
 
     return res.json(stories);
+  });
+});
+
+/* GET one story of one user. */
+router.get('/user-story/:id', (req, res, next) => {
+  const storyId = req.params.id;
+  Story.findById(storyId, (err, story) => {
+    if (err) { return res.json(err).status(500); }
+
+    return res.json(story);
   });
 });
 
