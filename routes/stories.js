@@ -22,5 +22,15 @@ router.post('/', (req, res, next) => {
   .catch(next);
 });
 
+/* GET stories listing. */
+router.get('/:id', (req, res, next) => {
+  const userId = req.params.id;
+  Story.find({ owner: userId }, (err, stories) => {
+    if (err) { return res.json(err).status(500); }
+
+    return res.json(stories);
+  });
+});
+
 module.exports = router;
 

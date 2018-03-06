@@ -3,9 +3,14 @@ const Schema = mongoose.Schema;
 const objectId = Schema.Types.ObjectId;
 
 const StorySchema = new Schema({
-  owner: String,
+  owner: { type: objectId, ref: 'User' },
   message: String,
-  replies: [{ type: objectId, ref: 'Story' }]
+  replies: [ 
+    {
+      author: { type: objectId, ref: 'User' },
+      reply: String
+    } 
+  ]
 });
 
 const Story = mongoose.model('Story', StorySchema);
