@@ -42,5 +42,19 @@ router.get('/user-story/:id', (req, res, next) => {
   });
 });
 
+/* POST one reply in a story. */
+router.post('/new-reply', (req, res, next) => {
+  // console.log(req);
+  const storyId = req.body.storyId;
+  const currentUser = req.session.currentUser._id;
+  const message = req.body.reply;
+console.log(req.body)
+  Story.findByIdAndUpdate(storyId, { $push: {replies: {author: currentUser, reply: message}}}, {new: true}, (err, story) => {
+    if (err) { return res.json(err).status(500); }
+
+    return res.json(story);
+  });
+});
+
 module.exports = router;
 
