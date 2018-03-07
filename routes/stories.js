@@ -26,35 +26,44 @@ router.post('/', (req, res, next) => {
 router.get('/user-stories/:id', (req, res, next) => {
   const userId = req.params.id;
   Story.find({ owner: userId }, (err, stories) => {
-    if (err) { return res.json(err).status(500); }
+    if (err) { next(err); }
 
     return res.json(stories);
   });
 });
 
-/* GET one story of one user. */
+/* GET one story of one user. */ 
 router.get('/user-story/:id', (req, res, next) => {
   const storyId = req.params.id;
-  Story.findById(storyId, (err, story) => {
-    if (err) { return res.json(err).status(500); }
-
-    return res.json(story);
-  });
+  Story.findById(storyId)
+    .populate('owner')
+    .populate('replies.author')
+    .then((story) => res.json(story))
+    .catch(next);
 });
 
 /* POST one reply in a story. */
 router.post('/new-reply', (req, res, next) => {
-  // console.log(req);
   const storyId = req.body.storyId;
   const currentUser = req.session.currentUser._id;
   const message = req.body.reply;
-console.log(req.body)
-  Story.findByIdAndUpdate(storyId, { $push: {replies: {author: currentUser, reply: message}}}, {new: true}, (err, story) => {
-    if (err) { return res.json(err).status(500); }
-
-    return res.json(story);
-  });
+  
+  Story.findByIdAndUpdate(storyId, { $push: {replies: {author: currentUser, reply: message}}}, {new: true})
+  .then((story) => res.json(story))
+  .catch(next);
 });
+
+/* POST one reply in a story. */
+// router.post('/new-reply', (req, res, next) => {
+//   const storyId = req.body.storyId;
+//   const currentUser = req.session.currentUser._id;
+//   const message = req.body.reply;
+  
+//   Story.findByIdAndUpdate(storyId, { $push: {replies: {author: currentUser, reply: message}}}, {new: true}, (err, story) => {
+//     if (err) { next(err); }
+//     return res.json(story);
+//   });
+// });
 
 module.exports = router;
 
